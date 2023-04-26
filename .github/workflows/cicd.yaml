@@ -2,8 +2,6 @@ name: Development deploy
 
 on:
   workflow_dispatch:
-  fields:
-      before: ${{ github.event.before }}
 
 permissions:
   id-token: write
@@ -19,13 +17,13 @@ jobs:
       two: ${{ steps.filter.outputs.two }}
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
+    # - name: Checkout Code
+    #   uses: actions/checkout@v3
     - name: Filter changes by path
       uses: dorny/paths-filter@v2
       id: filter
       with:
+        initial-fetch-depth: 1
         filters: |
           one:
             - 'one/**'
