@@ -17,8 +17,8 @@ jobs:
       two: ${{ steps.filter.outputs.two }}
 
     steps:
-    # - name: Checkout Code
-    #   uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
     - name: Filter changes by path
       uses: dorny/paths-filter@v2
       id: filter
