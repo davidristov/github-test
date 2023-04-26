@@ -1,0 +1,55 @@
+name: Development deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read 
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    outputs:
+      one: ${{ steps.filter.outputs.one }}
+      two: ${{ steps.filter.outputs.two }}
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Filter changes by path
+      uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          one:
+            - 'one/**'
+          two:
+            - 'two/**'
+
+  one-dev:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: needs.changes.outputs.one == 'true'
+    environment: dev
+
+    steps:
+    - name: test2
+      run: |
+        echo "Executed one"
+        echo ${{ github.ref_type }}
+
+  two-dev:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: needs.changes.outputs.two == 'true'
+    environment: dev
+
+    steps:
+    - name: test2
+      run: |
+        echo "Executed two"
+        echo ${{ github.ref_type }}
