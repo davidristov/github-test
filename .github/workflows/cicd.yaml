@@ -2,6 +2,8 @@ name: Development deploy
 
 on:
   workflow_dispatch:
+  fields:
+      before: ${{ github.event.before }}
 
 permissions:
   id-token: write
